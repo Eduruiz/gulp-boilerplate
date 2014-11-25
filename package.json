@@ -22,7 +22,7 @@
     "gulp-minify-css": "*",
     "gulp-notify": "*",
     "gulp-through": "*",
-    "gulp-gulp-plumber": "*",
+    "gulp-plumber": "*",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "*",
     "gulp-sass": "*",
