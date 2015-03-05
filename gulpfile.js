@@ -10,7 +10,6 @@ var gulp          = require('gulp'),
     concat        = require('gulp-concat'),
     notify        = require('gulp-notify'),
     through       = require('gulp-through'),
-    plumber       = require('gulp-plumber'),
     cache         = require('gulp-cache'),
     browserSync   = require('browser-sync'),
     newer         = require('gulp-newer');
