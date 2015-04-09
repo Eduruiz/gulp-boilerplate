@@ -20,6 +20,7 @@
     "gulp-minify-css": "*",
     "gulp-newer": "*",
     "gulp-notify": "*",
+    "gulp-plumber": "^1.0.0",
     "gulp-rename": "*",
     "gulp-sass": "*",
     "gulp-through": "*",

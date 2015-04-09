@@ -13,6 +13,7 @@ var gulp          = require('gulp'),
     cache         = require('gulp-cache'),
     browserSync   = require('browser-sync'),
     newer         = require('gulp-newer');
+    plumber       = require('gulp-plumber');
     reload        = browserSync.reload;
 
 gulp.task('default', ['clean'], function() {
@@ -22,15 +23,16 @@ gulp.task('default', ['clean'], function() {
 // Static server
 gulp.task('browser-sync', function() {
     browserSync({
-        proxy: "localhost/dinamo",
-        tunnel: true,
-        tunnel: "dinamo"
+        proxy: "localhost/vivere-sanus",
+        //tunnel: true,
+        //tunnel: "dinamo"
     });
 });
 
 
 gulp.task('styles', function() {
-  return gulp.src('assets/sass/main.scss')
+  return gulp.src('assets/sass/**/*.scss')
+    .pipe(plumber())
     .pipe(sass({ style: 'compressed' }))
     .on("error", notify.onError(function (error) {
         return "Error: " + error.message;
@@ -56,7 +58,7 @@ gulp.task('images', function() {
     var imgDest = 'dist/images'
     return gulp.src(imgSrc)
     .pipe(newer(imgDest))
-    .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))
+    .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
     .pipe(gulp.dest(imgDest))
     .pipe(notify({ message: 'Images task complete' }));
 });
@@ -65,7 +67,7 @@ gulp.task('images', function() {
 // Default task to be run with 'gulp watch'
 gulp.task('watch', ['styles', 'browser-sync'], function () {
     // Watch .scss files
-    gulp.watch("assets/sass/*.scss", ['styles']);
+    gulp.watch("assets/sass/**/*.scss", ['styles']);
     // Watch .js files
     gulp.watch('assets/js/*.js', ['scripts', browserSync.reload]);
     // Watch image files

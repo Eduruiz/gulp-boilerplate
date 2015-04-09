@@ -1,0 +1,28 @@
+//creating the breakpoints
+@mixin breakpoint($point) {
+	@if $point == papa-bear {
+		@media (max-width: 959px) { @content; }
+	}
+	@if $point == imp-papa-bear {
+		@media (max-width: 959px) and (max-height: 500px) { @content; }
+	}
+	@else if $point == mama-bear {
+		@media (max-width: 767px) { @content; }
+	}
+	@else if $point == baby-bear {
+		@media (max-width: 480px)  { @content; }
+	}
+}
+
+//making a little grid
+@mixin rowMachine($numPerRow, $margin) {
+	width: ((100% - (($numPerRow - 1) * $margin)) / $numPerRow);
+	&:nth-child(n) {
+		margin-bottom: $margin;
+		margin-right: $margin;
+	}
+	&:nth-child(#{$numPerRow}n) {
+		margin-right: 0;
+		margin-bottom: 0;
+	}
+}
