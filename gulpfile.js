@@ -1,6 +1,7 @@
 var gulp          = require('gulp'),
     filter        = require('gulp-filter');
     sass          = require('gulp-sass'),
+    sourcemaps    = require('gulp-sourcemaps'),
     autoprefixer  = require('gulp-autoprefixer'),
     minifycss     = require('gulp-minify-css'),
     jshint        = require('gulp-jshint'),
@@ -33,6 +34,7 @@ gulp.task('browser-sync', function() {
 gulp.task('styles', function() {
   return gulp.src('assets/sass/**/*.scss')
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(sass({ style: 'compressed' }))
     .on("error", notify.onError(function (error) {
         return "Error: " + error.message;

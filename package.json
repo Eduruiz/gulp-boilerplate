@@ -9,6 +9,7 @@
     "browser-sync": "*",
     "gulp": "*",
     "gulp-autoprefixer": "*",
+    "gulp-sourcemaps" : "",
     "gulp-cache": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
