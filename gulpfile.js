@@ -42,6 +42,7 @@ gulp.task('styles', function() {
     }))
     .pipe(autoprefixer('last 2 version'))
     .pipe(minifycss())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/css'))
     .pipe(filter('**/*.css')) // Filtering stream to only css files
     .pipe(notify({ message: 'Styles task complete' }))
