@@ -3,7 +3,7 @@ var gulp          = require('gulp'),
     sass          = require('gulp-sass'),
     sourcemaps    = require('gulp-sourcemaps'),
     autoprefixer  = require('gulp-autoprefixer'),
-    minifycss     = require('gulp-minify-css'),
+    nano          = require('gulp-cssnano'),
     jshint        = require('gulp-jshint'),
     uglify        = require('gulp-uglify'),
     imagemin      = require('gulp-imagemin'),
@@ -42,9 +42,11 @@ gulp.task('styles', function() {
         return "Error: " + error.message;
         this.emit('end');
     }))
-    .pipe(autoprefixer('last 2 version'))
-    .pipe(purify(['./dist/**/*.js', './**/*.php']))
-    .pipe(minifycss())
+    // .pipe(purify(['./dist/**/*.js', './**/*.php']))
+    .pipe(nano({
+        discardComments: {removeAll: true},
+        autoprefixer: { browsers: ['last 2 version'], add: true }
+    }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/css'))
     .pipe(filter('**/*.css')) // Filtering stream to only css files
