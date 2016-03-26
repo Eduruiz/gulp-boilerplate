@@ -13,8 +13,10 @@ var gulp          = require('gulp'),
     through       = require('gulp-through'),
     cache         = require('gulp-cache'),
     browserSync   = require('browser-sync'),
-    newer         = require('gulp-newer');
-    plumber       = require('gulp-plumber');
+    newer         = require('gulp-newer'),
+    plumber       = require('gulp-plumber'),
+    // critical      = require('critical'),
+    purify        = require('gulp-purifycss')
     reload        = browserSync.reload;
 
 gulp.task('default', ['clean'], function() {
@@ -24,7 +26,7 @@ gulp.task('default', ['clean'], function() {
 // Static server
 gulp.task('browser-sync', function() {
     browserSync({
-        proxy: "localhost/vivere-sanus",
+        proxy: "192.168.33.10/_util/gulp-boilerplate/",
         //tunnel: true,
         //tunnel: "dinamo"
     });
@@ -41,6 +43,7 @@ gulp.task('styles', function() {
         this.emit('end');
     }))
     .pipe(autoprefixer('last 2 version'))
+    .pipe(purify(['./dist/**/*.js', './**/*.php']))
     .pipe(minifycss())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/css'))
@@ -48,6 +51,18 @@ gulp.task('styles', function() {
     .pipe(notify({ message: 'Styles task complete' }))
     .pipe(browserSync.reload({stream:true}));
 });
+
+// gulp.task('critical', function(){
+//     critical.generate({
+//         inline: true,
+//         base: 'dist/',
+//         src: 'index.html',
+//         dest: 'dist/index-critical.html',
+//         minify: true,
+//         width: 1366,
+//         height: 768
+//     })
+// });
 
 gulp.task('scripts', function() {
   return gulp.src('assets/js/**/*.js')
