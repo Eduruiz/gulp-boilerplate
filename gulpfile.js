@@ -42,7 +42,6 @@ gulp.task('styles', function() {
         return "Error: " + error.message;
         this.emit('end');
     }))
-    // .pipe(purify(['./dist/**/*.js', './**/*.php']))
     .pipe(nano({
         discardComments: {removeAll: true},
         autoprefixer: { browsers: ['last 2 version'], add: true }
@@ -53,6 +52,16 @@ gulp.task('styles', function() {
     .pipe(notify({ message: 'Styles task complete' }))
     .pipe(browserSync.reload({stream:true}));
 });
+
+gulp.task('purify', function () {
+    return gulp.src('dist/css/main.css')
+    .pipe(purify(['dist/**/*.js', 'index.php']))
+    .pipe(gulp.dest('dist/css'))
+    .on("error", notify.onError(function (error) {
+        return "Error: " + error.message;
+        this.emit('end');
+    }))
+})
 
 // gulp.task('critical', function(){
 //     critical.generate({
