@@ -93,13 +93,13 @@ gulp.task('purify', function () {
 //     })
 // });
 
-// gulp.task('scripts', function() {
-//   return gulp.src('js/**/*.js')
-//     .pipe(gulp.dest('js'))
-//     .pipe(jshint())
-//     .pipe(jshint.reporter('default', { verbose: true }))
-//     .pipe(notify({ message: 'Scripts task complete' }));
-// });
+gulp.task('scripts', function() {
+    return gulp.src('app/js/main.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default', { verbose: true }))
+    .pipe(jshint.reporter('fail'))
+    .pipe(notify({ message: 'Scripts task complete' }));
+});
 
 gulp.task('images', function() {
     var imgSrc = 'assets/images/**/*'
