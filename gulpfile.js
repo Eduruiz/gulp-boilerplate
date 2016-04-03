@@ -15,26 +15,28 @@ var gulp          = require('gulp'),
     browserSync   = require('browser-sync'),
     newer         = require('gulp-newer'),
     plumber       = require('gulp-plumber'),
+    useref        = require('gulp-useref'),
+    gulpIf        = require('gulp-if'),
     // critical      = require('critical'),
     purify        = require('gulp-purifycss')
     reload        = browserSync.reload;
 
-gulp.task('default', ['clean'], function() {
-    gulp.start('styles', 'scripts', 'images');
-});
+// gulp.task('default', ['clean'], function() {
+//     gulp.start('styles', 'scripts', 'images');
+// });
 
 // Static server
 gulp.task('browser-sync', function() {
     browserSync({
         proxy: "192.168.33.10/_util/gulp-boilerplate/",
         //tunnel: true,
-        //tunnel: "dinamo"
+        //tunnel: "gulp-boilerplate"
     });
 });
 
 
 gulp.task('styles', function() {
-  return gulp.src('assets/sass/**/*.scss')
+  return gulp.src('app/sass/**/*.scss')
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(sass({ style: 'compressed' }))
@@ -47,10 +49,26 @@ gulp.task('styles', function() {
         autoprefixer: { browsers: ['last 2 version'], add: true }
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('app/css'))
     .pipe(filter('**/*.css')) // Filtering stream to only css files
     .pipe(notify({ message: 'Styles task complete' }))
     .pipe(browserSync.reload({stream:true}));
+});
+
+gulp.task('useref', function(){
+  return gulp.src('app/**/*.php')
+    .pipe(useref())
+    
+    // Minifies only if it's a JavaScript file
+    .pipe(gulpIf('*.js', uglify()))
+
+    // Minifies only if it's a CSS file
+    .pipe(gulpIf('*.css', nano(({
+        discardComments: {removeAll: true},
+        autoprefixer: { browsers: ['last 2 version'], add: true }
+    }))))
+
+    .pipe(gulp.dest('dist'))
 });
 
 gulp.task('purify', function () {
@@ -75,12 +93,13 @@ gulp.task('purify', function () {
 //     })
 // });
 
-gulp.task('scripts', function() {
-  return gulp.src('assets/js/**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
-});
+// gulp.task('scripts', function() {
+//   return gulp.src('js/**/*.js')
+//     .pipe(gulp.dest('js'))
+//     .pipe(jshint())
+//     .pipe(jshint.reporter('default', { verbose: true }))
+//     .pipe(notify({ message: 'Scripts task complete' }));
+// });
 
 gulp.task('images', function() {
     var imgSrc = 'assets/images/**/*'
@@ -96,11 +115,11 @@ gulp.task('images', function() {
 // Default task to be run with 'gulp watch'
 gulp.task('watch', ['styles', 'browser-sync'], function () {
     // Watch .scss files
-    gulp.watch("assets/sass/**/*.scss", ['styles']);
+    gulp.watch("app/sass/**/*.scss", ['styles']);
     // Watch .js files
-    gulp.watch('assets/js/*.js', ['scripts', browserSync.reload]);
+    gulp.watch('app/js/*.js', ['scripts', browserSync.reload]);
     // Watch image files
-    gulp.watch('assets/images/**/*', ['images', browserSync.reload]);
+    gulp.watch('app/images/**/*', ['images', browserSync.reload]);
     // Watch any files php files, reload on change
     gulp.watch('**/*.php', browserSync.reload);
 });
