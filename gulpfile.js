@@ -10,7 +10,7 @@ var gulp          = require('gulp'),
     rename        = require('gulp-rename'),
     concat        = require('gulp-concat'),
     notify        = require('gulp-notify'),
-    through       = require('gulp-through'),
+    del           = require('del'),
     cache         = require('gulp-cache'),
     browserSync   = require('browser-sync'),
     newer         = require('gulp-newer'),
@@ -24,6 +24,11 @@ var gulp          = require('gulp'),
 // gulp.task('default', ['clean'], function() {
 //     gulp.start('styles', 'scripts', 'images');
 // });
+
+// Remove unused folders & files
+gulp.task('clean', function(cb){
+    del(['dist'], cb);
+});
 
 // Static server
 gulp.task('browser-sync', function() {
