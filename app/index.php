@@ -16,7 +16,9 @@
 		<!--build:css css/main.min.css-->
 		<link rel="stylesheet" href="css/main.css">
 		<!--endbuild-->
+		<!--build:js js/vendor/modernizr-2.6.2.min.js-->
 		<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+		<!--endbuild-->
 	</head>
 
 	<body>

@@ -33,7 +33,7 @@ gulp.task('clean', function(cb){
 // Static server
 gulp.task('browser-sync', function() {
     browserSync({
-        proxy: "192.168.33.10/_util/gulp-boilerplate/",
+        proxy: "192.168.33.10/_util/gulp-boilerplate/app",
         //tunnel: true,
         //tunnel: "gulp-boilerplate"
     });
@@ -57,7 +57,7 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('app/css'))
     .pipe(filter('**/*.css')) // Filtering stream to only css files
     .pipe(notify({ message: 'Styles task complete' }))
-    .pipe(browserSync.reload({stream:true}));
+    .pipe(browserSync.reload({stream: true}))
 });
 
 gulp.task('useref', function(){
@@ -102,8 +102,20 @@ gulp.task('scripts', function() {
     return gulp.src('app/js/main.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default', { verbose: true }))
-    .pipe(jshint.reporter('fail'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    
+    // Use gulp-notify as jshint reporter
+    .pipe(notify(function (file) {
+      if (file.jshint.success) {
+        // Don't show something if success
+        return 'Scripts task complete';
+      }
+      var errors = file.jshint.results.map(function (data) {
+        if (data.error) {
+          return "(" + data.error.line + ':' + data.error.character + ') ' + data.error.reason;
+        }
+      }).join("\n");
+      return file.relative + " (" + file.jshint.results.length + " errors)\n" + errors;
+    }));
 });
 
 gulp.task('images', function() {
@@ -118,13 +130,16 @@ gulp.task('images', function() {
 
 
 // Default task to be run with 'gulp watch'
-gulp.task('watch', ['styles', 'browser-sync'], function () {
+gulp.task('watch', ['browser-sync', 'styles'], function () {
     // Watch .scss files
     gulp.watch("app/sass/**/*.scss", ['styles']);
     // Watch .js files
-    gulp.watch('app/js/*.js', ['scripts', browserSync.reload]);
+    gulp.watch('app/js/main.js', ['scripts', browserSync.reload]);
     // Watch image files
     gulp.watch('app/images/**/*', ['images', browserSync.reload]);
     // Watch any files php files, reload on change
     gulp.watch('**/*.php', browserSync.reload);
 });
+
+//gulp task to build all the dist/ files
+
