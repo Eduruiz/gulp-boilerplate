@@ -1,42 +1,47 @@
-var gulp          = require('gulp'),
-    filter        = require('gulp-filter');
-    sass          = require('gulp-sass'),
-    sourcemaps    = require('gulp-sourcemaps'),
-    autoprefixer  = require('gulp-autoprefixer'),
-    nano          = require('gulp-cssnano'),
-    jshint        = require('gulp-jshint'),
-    uglify        = require('gulp-uglify'),
-    imagemin      = require('gulp-imagemin'),
-    rename        = require('gulp-rename'),
-    concat        = require('gulp-concat'),
-    notify        = require('gulp-notify'),
-    del           = require('del'),
-    cache         = require('gulp-cache'),
-    browserSync   = require('browser-sync'),
-    newer         = require('gulp-newer'),
-    plumber       = require('gulp-plumber'),
-    useref        = require('gulp-useref'),
-    gulpIf        = require('gulp-if'),
-    // critical      = require('critical'),
-    purify        = require('gulp-purifycss')
-    reload        = browserSync.reload;
+var gulp            = require('gulp'),
+    filter          = require('gulp-filter');
+    sass            = require('gulp-sass'),
+    sourcemaps      = require('gulp-sourcemaps'),
+    autoprefixer    = require('gulp-autoprefixer'),
+    nano            = require('gulp-cssnano'),
+    jshint          = require('gulp-jshint'),
+    uglify          = require('gulp-uglify'),
+    imagemin        = require('gulp-imagemin'),
+    rename          = require('gulp-rename'),
+    concat          = require('gulp-concat'),
+    notify          = require('gulp-notify'),
+    del             = require('del'),
+    cache           = require('gulp-cache'),
+    browserSync     = require('browser-sync'),
+    newer           = require('gulp-newer'),
+    plumber         = require('gulp-plumber'),
+    useref          = require('gulp-useref'),
+    gulpIf          = require('gulp-if'),
+    // critical     = require('critical'),
+    purify          = require('gulp-purifycss'),
+    runSequence = require('run-sequence'),
+    reload          = browserSync.reload;
 
 // gulp.task('default', ['clean'], function() {
 //     gulp.start('styles', 'scripts', 'images');
 // });
 
-// Remove unused folders & files
-gulp.task('clean', function(cb){
-    del(['dist'], cb);
+// Remove all dist/ folder
+gulp.task('clean', function(){
+    del('dist');
 });
 
 // Static server
-gulp.task('browser-sync', function() {
-    browserSync({
+gulp.task('browserSync', function() {
+    browserSync.init({
         proxy: "192.168.33.10/_util/gulp-boilerplate/app",
         //tunnel: true,
         //tunnel: "gulp-boilerplate"
     });
+
+    // add browserSync.reload to the tasks array to make
+    // all browsers reload after tasks are complete.
+    gulp.watch("app/js/*.js", ['js-watch']);
 });
 
 
@@ -118,8 +123,14 @@ gulp.task('scripts', function() {
     }));
 });
 
+// create a task that ensures the `js` task is complete before
+// reloading browsers
+gulp.task('js-watch', ['scripts'], browserSync.reload);
+
+
+
 gulp.task('images', function() {
-    var imgSrc = 'assets/images/**/*'
+    var imgSrc = 'app/images/**/*'
     var imgDest = 'dist/images'
     return gulp.src(imgSrc)
     .pipe(newer(imgDest))
@@ -128,18 +139,37 @@ gulp.task('images', function() {
     .pipe(notify({ message: 'Images task complete' }));
 });
 
+//copying fonts from app to dist
+gulp.task('fonts', function() {
+  return gulp.src('app/fonts/**/*')
+  .pipe(gulp.dest('dist/fonts'))
+})
+
 
 // Default task to be run with 'gulp watch'
-gulp.task('watch', ['browser-sync', 'styles'], function () {
+gulp.task('watch', ['browserSync', 'styles'], function () {
     // Watch .scss files
     gulp.watch("app/sass/**/*.scss", ['styles']);
-    // Watch .js files
-    gulp.watch('app/js/main.js', ['scripts', browserSync.reload]);
     // Watch image files
-    gulp.watch('app/images/**/*', ['images', browserSync.reload]);
+    gulp.watch('app/images/**/*', ['images'], browserSync.reload);
     // Watch any files php files, reload on change
     gulp.watch('**/*.php', browserSync.reload);
 });
 
+// gulp.task('watch', ['browserSync', 'sass'], function (){
+//   gulp.watch('app/sass/**/*.scss', ['sass']); 
+//   // Reloads the browser whenever HTML or JS files change
+//   gulp.watch('app/*.php', browserSync.reload); 
+//   gulp.watch('app/js/**/*.js', ['scripts'], browserSync.reload); 
+// });
+
 //gulp task to build all the dist/ files
+gulp.task('build', function (callback) {
+  console.log('building a awesome app :)')
+  runSequence('clean', 
+    ['styles', 'images', 'fonts'],
+    'useref',
+    callback
+  )
+})
 
