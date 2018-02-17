@@ -1,50 +1,44 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <base href="/">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Gulp Boilerplate</title>
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width">
-
-		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-		
-		<!--build:css css/main.min.css-->
-		<link rel="stylesheet" href="css/main.css">
-		<!--endbuild-->
-		<!--build:js js/vendor/modernizr-2.6.2.min.js-->
-		<script src="js/vendor/modernizr-2.6.2.min.js"></script>
-		<!--endbuild-->
-	</head>
-
-	<body>
-		<!--[if lt IE 8]>
-			<p class="chromeframe">Seu navegador é <strong>antigo</strong>. Por favor <a href="http://browsehappy.com/">atualize seu navegador</a> ou <a href="http://www.google.com/chromeframe/?redirect=true">ative o Google Chrome Frame</a> para visualizar o conteúdo corretamente.</p>
-		<![endif]-->
-
-		<?php include 'home.php'; ?>
-
-		<footer>
-		</footer>
-
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-		
-		<!--build:js js/scripts.min.js-->
-		<script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
+        <!--build:css assets/css/main.min.css-->
+        <link rel="stylesheet" href="assets/css/main.css">
         <!--endbuild-->
-		
-		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-		<script>
-			var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-			(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-			g.src='//www.google-analytics.com/ga.js';
-			s.parentNode.insertBefore(g,s)}(document,'script'));
-		</script>		
-	</body>
+        <!--build:js assets/js/vendor/modernizr-2.6.2.min.js-->
+        <script src="assets/js/vendor/modernizr-2.6.2.min.js"></script>
+        <!--endbuild-->
+    </head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">Seu navegador esta <strong>ultrapassado</strong>. Por favor <a href="https://browsehappy.com/">atualize seu navegador</a> para melhor experiencia no site e seguranca.</p>
+    <![endif]-->
+
+    <?php include 'home.php'; ?>
+
+    <footer>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+
+    <!--build:js assets/js/scripts.min.js-->
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!--endbuild-->
+
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <script>
+        window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+        ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+</body>
 </html>

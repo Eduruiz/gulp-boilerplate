@@ -23,8 +23,10 @@
     "gulp-newer": "*",
     "gulp-notify": "*",
     "gulp-plumber": "^1.0.0",
+    "gulp-prompt": "^1.0.1",
     "gulp-purifycss": "",
     "gulp-rename": "*",
+    "gulp-rsync": "^0.0.8",
     "gulp-sass": "*",
     "gulp-sourcemaps": "",
     "gulp-through": "*",
@@ -33,6 +35,7 @@
     "gulp-util": "*",
     "jshint": "^2.9.1",
     "jshint-stylish": "*",
+    "run-sequence": "^2.2.1",
     "tiny-lr": "*"
   }
 }
